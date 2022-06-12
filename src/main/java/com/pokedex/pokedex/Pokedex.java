@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class PokemonGet {
+public class Pokedex{
 
     public static void main(String[] args) {
         String pokemon = "";
