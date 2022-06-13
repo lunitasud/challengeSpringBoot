@@ -1,13 +1,21 @@
 package com.pokedex.pokedex.model;
-
 public class JsonBasicPokemon {
+
+
+    Integer  id=0;
     String type="";
     String name="";
     Double weight=0.0;
-    String ability;
+
+    String abilities[];
     String Description;
     String evolutions[];
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {        this.id = id;    }
     public String getName() {
         return name;
     }
@@ -31,14 +39,13 @@ public class JsonBasicPokemon {
         this.weight = weight;
     }
 
-    public String getAbility() {
-        return ability;
+    public String[] getAbilities() {
+        return abilities;
     }
 
-    public void setAbility(String ability) {
-        this.ability = ability;
+    public void setAbilities(String[] abilities) {
+        this.abilities = abilities;
     }
-
     public String getDescription() {
         return Description;
     }
@@ -54,5 +61,7 @@ public class JsonBasicPokemon {
     public void setEvolutions(String[] evolutions) {
         this.evolutions = evolutions;
     }
+
+
 
 }

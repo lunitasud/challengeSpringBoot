@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="styles.css">
-    <script>
-        function getPokemon(name){
-            //alert("pokemon selected:"+name);
-            document.getElementById("pokecard").style.display = "block";
-            document.getElementById("pokename").innerHTML = name;
-            document.getElementById("avatar").src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/7.png";
-            document.getElementById("avatar").alt = name;
-
-        }
-    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -48,15 +38,81 @@
                 </header>
 
                 <div class="w3-container">
-                    <p>1 new friend request</p>
+                    <p id="pokeweight"></p>
+                    <p ><label>Tipo: </label><label id="poketype"></label></p>
+                    <p ><label>Evolución: </label><label id="pokevol"></label></p>
+                    <p ><label>Habilidades: </label><label id="pokeability"></label></p>
                     <hr>
-                    <img src=" " alt=" " class="w3-left w3-circle" id="avatar">
-                    <p>President/CEO at Mighty Schools...</p>
+                    <img src=" " alt=" " class="w3-left w3-circle avatar-img" id="avatar">
+                    <p id="description">President/CEO at Mighty Schools...</p>
                 </div>
                 <button class="w3-button w3-block w3-dark-grey">+ Connect</button>
 
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function getPokemon(name)
+        {
+           var request = $.ajax({
+              method: "GET",
+              url: "http://localhost:8080/pokemon-api/"+name
+            });
+            request.done(function(data)
+            {
+                //get pokemon name and print on label
+                const myJSON = JSON.parse(data);
+                document.getElementById("pokename").innerHTML = "<label>Nombre: </label>"+ myJSON.name;
+                document.getElementById("pokeweight").innerHTML = "<label>Peso: </label>"+ myJSON.weight;
+                var pokemon_type="";
+                for (var j=0; j<myJSON.types.length; j++) {
+                            var pokemon_type = pokemon_type + myJSON.types[j].type.name+ " ";
+                 }
+                 document.getElementById("poketype").innerHTML = pokemon_type;
+                var pokemon_ability="";
+                for (var k=0; k<myJSON.abilities.length; k++) {
+                            var pokemon_ability = pokemon_ability + myJSON.abilities[k].ability.name+ " ";
+                 }
+                 document.getElementById("pokeability").innerHTML = pokemon_ability;
+                //get pokemon evolution
+                var request_ev = $.ajax({
+                      method: "GET",
+                      url: "http://localhost:8080/pokevolution/"+myJSON.id
+                    });
+                    request_ev.done(function(data_ev){
+                    const myJSONev = JSON.parse(data_ev);
+                        var evolution = myJSONev.chain.evolves_to[0].species.name;
+                        console.log(evolution);
+                        document.getElementById("pokevol").innerHTML = "<label>"+ evolution+"</label>";
+                    });
+
+                //get pokemon image
+                var request_img = $.ajax({
+                      method: "GET",
+                      url: "http://localhost:8080/poke-img-url/"+name
+                    });
+                    request_img.done(function(data_url){
+                        document.getElementById("avatar").src = data_url ;
+                    });
+                document.getElementById("avatar").alt = myJSON.name;
+
+               //get description of pokemon
+                var request_desc = $.ajax({
+                      method: "GET",
+                      url: "http://localhost:8080/poke-desc/"+myJSON.id
+                    });
+                    request_desc.done(function(data_desc){
+                        const myJSONDesc = JSON.parse(data_desc);
+                        for (var i=0; i<myJSONDesc.descriptions.length; i++) {
+                            if(myJSONDesc.descriptions[i].language.name=="es"){
+                                document.getElementById("description").innerHTML = "<label>Descripción: "+myJSONDesc.descriptions[i].description+"</label>";
+                            }
+                        }
+                    });
+                document.getElementById("pokecard").style.display = "block";
+            });
+        }
+    </script>
 </body>
 </html>
