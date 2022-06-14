@@ -57,7 +57,7 @@
         {
            var request = $.ajax({
               method: "GET",
-              url: "http://localhost:8080/pokemon-api/"+name
+              url: "https://lunita-pokedex.herokuapp.com/pokemon-api/"+name
             });
             request.done(function(data)
             {
@@ -78,7 +78,7 @@
                 //get pokemon evolution
                 var request_ev = $.ajax({
                       method: "GET",
-                      url: "http://localhost:8080/pokevolution/"+myJSON.id
+                      url: "https://lunita-pokedex.herokuapp.com/pokevolution/"+myJSON.id
                     });
                     request_ev.done(function(data_ev){
                     const myJSONev = JSON.parse(data_ev);
@@ -90,7 +90,7 @@
                 //get pokemon image
                 var request_img = $.ajax({
                       method: "GET",
-                      url: "http://localhost:8080/poke-img-url/"+name
+                      url: "https://lunita-pokedex.herokuapp.com/poke-img-url/"+name
                     });
                     request_img.done(function(data_url){
                         document.getElementById("avatar").src = data_url ;
@@ -100,7 +100,7 @@
                //get description of pokemon
                 var request_desc = $.ajax({
                       method: "GET",
-                      url: "http://localhost:8080/poke-desc/"+myJSON.id
+                      url: "https://lunita-pokedex.herokuapp.com/poke-desc/"+myJSON.id
                     });
                     request_desc.done(function(data_desc){
                         const myJSONDesc = JSON.parse(data_desc);
