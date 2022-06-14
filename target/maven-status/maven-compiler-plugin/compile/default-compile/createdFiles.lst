@@ -1,0 +1,5 @@
+com\pokedex\pokedex\model\JsonBasicPokemon.class
+com\pokedex\pokedex\ServletInitializer.class
+com\pokedex\pokedex\Pokedex.class
+com\pokedex\pokedex\PokedexApplication.class
+com\pokedex\pokedex\controllers\PokedexController.class
